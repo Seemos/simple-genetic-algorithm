@@ -106,7 +106,7 @@ void crossover(std::vector<genome>& population_children, std::vector<genome>& po
 // modifies genes of the individuums to create an increased
 // diversity and make up for the loss in the gene pool caused
 // by the selection / crossover process
-void mutate_population(std::vector<genome>& population, double probability, unsigned n_ignored){
+void mutate_population(std::vector<genome>& population, double probability, unsigned n_ignored, int lower_bound, int upper_bound){
     std::uniform_real_distribution<double> distribution (0, 1);
 	std::default_random_engine engine;
     double probability_decrement = probability / 2;
@@ -115,10 +115,10 @@ void mutate_population(std::vector<genome>& population, double probability, unsi
         for(auto& gene : population[i].genes){
             mutation = distribution(engine);
             if(mutation <= probability){
-                if(mutation < probability_decrement && gene > 0){
+                if(mutation < probability_decrement && gene > lower_bound){
                     gene--;
                 }
-                else if (gene < 1){
+                else if (gene < upper_bound){
                     gene++;
                 }
             }

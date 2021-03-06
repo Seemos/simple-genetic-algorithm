@@ -59,7 +59,7 @@ int main(){
         // use the parent generation to fill up the rest of the
         // child generation with modified versions
         crossover(population_children, population_parents, probability_crossover, size_population - number_elites);
-        mutate_population(population_children, probability_mutation, number_elites);
+        mutate_population(population_children, probability_mutation, number_elites, gene_bound_lower, gene_bound_upper);
         
         // Set the children population as the new parent population
         // clear the population_children to prevent growing populations

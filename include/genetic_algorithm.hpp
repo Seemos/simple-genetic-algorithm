@@ -23,7 +23,7 @@ void sort_population(std::vector<genome>& population);
 // Generating the new generation
 void use_elitism(std::vector<genome>& population_children, std::vector<genome>& population_parents, unsigned n_individuums);
 void crossover(std::vector<genome>& population_children, std::vector<genome>& population_parents, double probability, unsigned n_individuums);
-void mutate_population(std::vector<genome>& population, double probability, unsigned n_ignored);
+void mutate_population(std::vector<genome>& population, double probability, unsigned n_ignored, int lower_bound, int upper_bound);
 
 // Debug
 void print_population(std::vector<genome>& population);
