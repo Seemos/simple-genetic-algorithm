@@ -73,13 +73,16 @@ void crossover(std::vector<genome>& population_children, std::vector<genome>& po
     unsigned size_population = population_parents.size();
     unsigned size_individuum = population_parents[0].genes.size();
 
+    std::uniform_real_distribution<double> distribution (0, 1);
+	std::default_random_engine engine;
+
     for(unsigned i = 0; i < n_individuums / 2; i++){
         unsigned index_mother = rand()%(size_population/2);
         unsigned index_father = rand()%(size_population/2);
         genome mother = population_parents[index_mother];
         genome father = population_parents[index_father];
 
-        if (rand()%1 <= probability){
+        if (distribution(engine) <= probability){
             unsigned poc = rand()%size_individuum;
             genome daughter;
             genome son;
