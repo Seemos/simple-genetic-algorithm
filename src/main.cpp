@@ -8,6 +8,7 @@ unsigned fitness_target = 130;
 unsigned fitness_best = 0;
 unsigned number_elites = 2;
 double probability_crossover = 0.9;
+double probability_mutation = 0.1;
 
 // Population parameters
 unsigned size_population = 10;
@@ -58,7 +59,8 @@ int main(){
         // use the parent generation to fill up the rest of the
         // child generation with modified versions
         crossover(population_children, population_parents, probability_crossover, size_population - number_elites);
-
+        mutate_population(population_children, probability_mutation, number_elites);
+        
         // Set the children population as the new parent population
         // clear the population_children to prevent growing populations
         population_parents = population_children;

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <random>
 
 // Generates a base population of a given size
 // genes are randomized between the lower and
@@ -98,6 +99,29 @@ void crossover(std::vector<genome>& population_children, std::vector<genome>& po
         else{
             population_children.push_back(father);
             population_children.push_back(mother);
+        }
+    }
+}
+
+// modifies genes of the individuums to create an increased
+// diversity and make up for the loss in the gene pool caused
+// by the selection / crossover process
+void mutate_population(std::vector<genome>& population, double probability, unsigned n_ignored){
+    std::uniform_real_distribution<double> distribution (0, 1);
+	std::default_random_engine engine;
+    double probability_decrement = probability / 2;
+    double mutation;
+    for(unsigned i = n_ignored; i < population.size(); i++){
+        for(auto& gene : population[i].genes){
+            mutation = distribution(engine);
+            if(mutation <= probability){
+                if(mutation < probability_decrement && gene > 0){
+                    gene--;
+                }
+                else if (gene < 1){
+                    gene++;
+                }
+            }
         }
     }
 }
