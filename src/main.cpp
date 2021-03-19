@@ -33,7 +33,7 @@ int main(){
     // Evolve new generations
     // loop is left when a maximum of iterations is reached
     // or a desired fitness has been reached
-    for(int i = 0; i < max_iterations && fitness_target >= fitness_best; i++){
+    for(int i = 0; i < max_iterations && fitness_target > fitness_best; i++){
 
         // Evaluate the fitness of each population member
         evaluate_population(population_parents);
