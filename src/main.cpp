@@ -3,8 +3,8 @@
 #include "genetic_algorithm.hpp"
 
 // Parameters to control the evolution
-unsigned max_iterations = 8;
-unsigned fitness_target = 130;
+unsigned max_iterations = 10;
+unsigned fitness_target = 35;
 unsigned fitness_best = 0;
 unsigned number_elites = 2;
 double probability_crossover = 0.9;
