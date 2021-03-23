@@ -65,6 +65,31 @@ void use_elitism(std::vector<genome>& population_children, std::vector<genome>& 
     }
 }
 
+// generates an index from a given probability by using
+// a modified version of the binary search algorithm
+unsigned index_from_probability(std::vector<double> probabs_modified, double probab_wanted){
+    unsigned index_min = 0;
+    unsigned index_max = probabs_modified.size() - 1;
+    unsigned index_cur = index_max / 2;
+    unsigned index_tar = -1;
+
+    double probab_cur;
+    double probab_suc;
+
+    while(index_tar == -1){
+        probab_cur = probabs_modified[index_cur];
+        probab_suc = probabs_modified[index_cur+ 1];
+        if(probab_cur == probab_wanted || (index_cur == 0 && probab_wanted < probab_cur) || (probabs_modified[index_cur - 1] < probab_wanted && probab_wanted < probab_suc)){
+            index_tar = index_cur;
+        }
+        else if (probab_cur < probab_wanted) index_min = index_cur;
+        else if (probab_cur > probab_wanted) index_max = index_cur;
+        index_cur = index_min + (index_max - index_min)/2;
+    }
+
+    return index_tar;
+}
+
 // fills the population by randomly choosing two genomes as parents
 // and forming two children by mixing the genes of the parents by
 // a given probability, otherwise two individuums from the parent
@@ -72,13 +97,27 @@ void use_elitism(std::vector<genome>& population_children, std::vector<genome>& 
 void crossover(std::vector<genome>& population_children, std::vector<genome>& population_parents, double probability, unsigned n_individuums){
     unsigned size_population = population_parents.size();
     unsigned size_individuum = population_parents[0].genes.size();
+    double total_fitness;
+    double probab_fitness;
+    std::vector<double> probabilies_selection;
+    probabilies_selection.reserve(size_population);
 
     std::uniform_real_distribution<double> distribution (0, 1);
 	std::default_random_engine engine;
 
+    for(auto& individuum : population_parents){
+        total_fitness += individuum.fitness;
+    }
+    for(auto& individuum : population_parents){
+        probab_fitness += individuum.fitness / total_fitness;
+        probabilies_selection.push_back(probab_fitness);
+    }
+
     for(unsigned i = 0; i < n_individuums / 2; i++){
-        unsigned index_mother = rand()%(size_population/2);
-        unsigned index_father = rand()%(size_population/2);
+        double probability_mother = distribution(engine);
+        double probability_father = distribution(engine);
+        unsigned index_mother = index_from_probability(probabilies_selection, probability_mother);
+        unsigned index_father = index_from_probability(probabilies_selection, probability_father);
         genome mother = population_parents[index_mother];
         genome father = population_parents[index_father];
 
