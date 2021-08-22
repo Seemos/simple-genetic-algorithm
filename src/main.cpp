@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "genetic_algorithm.hpp"
+#include "knapsack.hpp"
 
 // Parameters to control the evolution
 unsigned max_iterations = 10;

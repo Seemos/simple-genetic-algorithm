@@ -1,5 +1,4 @@
 #include "genetic_algorithm.hpp"
-#include "knapsack_data.hpp"
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -21,20 +20,6 @@ std::vector<genome> generate_random_population(unsigned size_population, unsigne
         population.push_back(individuum);
     }
     return population;
-}
-
-// calculates the problem specific fitness of each individuum
-void calculate_fitness(genome& individuum){
-    int value = 0;
-    int volume = 0;
-    for(unsigned i = 0; i < individuum.genes.size(); i++){
-        if(individuum.genes[i] == 1){
-            value += values[i];
-            volume += volumes[i];
-        }
-    }
-    if(volume > max_volume) individuum.fitness = 0;
-    else individuum.fitness = value;
 }
 
 // calculate the fitness of the whole population
