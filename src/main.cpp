@@ -18,6 +18,7 @@ int gene_bound_lower = 0;
 
 // Storing generations and best individuums
 std::vector<genome> population_parents;
+std::vector<genome> population_fertile;
 std::vector<genome> population_children;
 std::vector<genome> best_individuums;
 
@@ -58,12 +59,14 @@ int main(){
 
         // use the parent generation to fill up the rest of the
         // child generation with modified versions
+        fitness_proportionate_selection(population_fertile, population_parents);
         crossover(population_children, population_parents, probability_crossover, size_population - number_elites);
         mutate_population(population_children, probability_mutation, number_elites, gene_bound_lower, gene_bound_upper);
         
         // Set the children population as the new parent population
         // clear the population_children to prevent growing populations
         population_parents = population_children;
+        population_fertile.clear();
         population_children.clear();
         
     }

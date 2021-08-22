@@ -90,11 +90,9 @@ unsigned index_from_probability(std::vector<double> probabs_modified, double pro
     return index_tar;
 }
 
-// fills the population by randomly choosing two genomes as parents
-// and forming two children by mixing the genes of the parents by
-// a given probability, otherwise two individuums from the parent
-// population are copied into the child population
-void crossover(std::vector<genome>& population_children, std::vector<genome>& population_parents, double probability, unsigned n_individuums){
+// selects parent genomes with the probability of their
+// relative share of the total fitness of the population
+void fitness_proportionate_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents){
     unsigned size_population = population_parents.size();
     unsigned size_individuum = population_parents[0].genes.size();
     double total_fitness;
@@ -112,15 +110,29 @@ void crossover(std::vector<genome>& population_children, std::vector<genome>& po
         probab_fitness += individuum.fitness / total_fitness;
         probabilies_selection.push_back(probab_fitness);
     }
-
-    for(unsigned i = 0; i < n_individuums / 2; i++){
+    for(unsigned i = 0; i < size_population / 2; i++){
         double probability_mother = distribution(engine);
         double probability_father = distribution(engine);
         unsigned index_mother = index_from_probability(probabilies_selection, probability_mother);
         unsigned index_father = index_from_probability(probabilies_selection, probability_father);
-        genome mother = population_parents[index_mother];
-        genome father = population_parents[index_father];
+        population_fertile.push_back(population_parents[index_mother]);
+        population_fertile.push_back(population_parents[index_father]);
+    }
+}
 
+// fills the population usign the fertile population two genomes 
+// as parents and forming two children by mixing the genes of the
+// parents by a given probability, otherwise two individuums from
+// the fertile population are copied into the child population
+void crossover(std::vector<genome>& population_children, std::vector<genome>& population_fertile, double probability, unsigned n_individuums){
+    unsigned size_population = population_fertile.size();
+    unsigned size_individuum = population_fertile[0].genes.size();
+    std::uniform_real_distribution<double> distribution (0, 1);
+	std::default_random_engine engine;
+
+    for(unsigned i = 0; i < n_individuums; i+=2){
+        genome mother = population_fertile[i];
+        genome father = population_fertile[i+1];
         if (distribution(engine) <= probability){
             unsigned poc = rand()%size_individuum;
             genome daughter;
