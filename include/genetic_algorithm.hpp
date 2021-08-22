@@ -14,7 +14,7 @@ std::vector<genome> generate_random_population(unsigned size_population, unsigne
 
 // Evaluating
 void calculate_fitness(genome& individuum);
-void evaluate_population(std::vector<genome>& population);
+void evaluate_population(std::vector<genome>& population, void (*fitness_function)(genome& individuum));
 
 // Sorting
 bool compare_fitness(const genome& genome_left, const genome& genome_right);

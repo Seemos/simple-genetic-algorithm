@@ -38,9 +38,9 @@ void calculate_fitness(genome& individuum){
 }
 
 // calculate the fitness of the whole population
-void evaluate_population(std::vector<genome>& population){
+void evaluate_population(std::vector<genome>& population, void (*fitness_function)(genome& individuum)){
     for(auto& instance : population){
-        calculate_fitness(instance);
+        fitness_function(instance);
     }
 }
 

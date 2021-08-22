@@ -37,7 +37,7 @@ int main(){
     for(int i = 0; i < max_iterations && fitness_target > fitness_best; i++){
 
         // Evaluate the fitness of each population member
-        evaluate_population(population_parents);
+        evaluate_population(population_parents, calculate_fitness);
 
         // Sort the population by the fitness of the members
         sort_population(population_parents);
