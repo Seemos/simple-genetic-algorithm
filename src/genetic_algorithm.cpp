@@ -105,6 +105,16 @@ void fitness_proportionate_selection(std::vector<genome>& population_fertile, st
     }
 }
 
+void truncation_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents, unsigned size_truncation){
+    sort_population(population_parents);
+    for(unsigned i = 0; i < population_parents.size()/2; i++){
+        unsigned index_mother = rand()%size_truncation;
+        unsigned index_father = rand()%size_truncation;
+        population_fertile.push_back(population_parents[index_mother]);
+        population_fertile.push_back(population_parents[index_father]);
+    }
+}
+
 // fills the population usign the fertile population two genomes 
 // as parents and forming two children by mixing the genes of the
 // parents by a given probability, otherwise two individuums from
