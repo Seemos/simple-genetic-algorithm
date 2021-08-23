@@ -106,6 +106,9 @@ void fitness_proportionate_selection(std::vector<genome>& population_fertile, st
     }
 }
 
+// selects genomes with the probability of 1/truncation_size
+// from the truncation_size genomes with the highest fitness
+// -> needs sorted population
 void truncation_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents, unsigned size_truncation){
     sort_population(population_parents);
     for(unsigned i = 0; i < population_parents.size()/2; i++){
@@ -116,6 +119,10 @@ void truncation_selection(std::vector<genome>& population_fertile, std::vector<g
     }
 }
 
+// selects genomes in tournaments. Competitors are randomly
+// chosen and have the same probability (1/size_population).
+// A competitor has the chance to win by 1 *(p-1)^fitnes_rank
+// -> needs sorted tournament population to get the fitnes rank
 void tournament_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents, unsigned size_tournament, double probability){
     double p_total = 0;
     std::vector<double> probabilities;
