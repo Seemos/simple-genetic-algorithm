@@ -3,6 +3,7 @@
 #include <vector>
 #include <algorithm>
 #include <random>
+#include <cmath>
 
 // Generates a base population of a given size
 // genes are randomized between the lower and
@@ -112,6 +113,30 @@ void truncation_selection(std::vector<genome>& population_fertile, std::vector<g
         unsigned index_father = rand()%size_truncation;
         population_fertile.push_back(population_parents[index_mother]);
         population_fertile.push_back(population_parents[index_father]);
+    }
+}
+
+void tournament_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents, unsigned size_tournament, double probability){
+    double p_total = 0;
+    std::vector<double> probabilities;
+    std::vector<genome> population_tournament;
+    probabilities.reserve(size_tournament);
+    population_tournament.reserve(size_tournament);
+    for(unsigned i = 0; i < size_tournament; i++){
+        p_total += probability - pow(1-probability, i);
+        probabilities.push_back(p_total);
+    }
+    std::uniform_real_distribution<double> distribution (0, p_total);
+	std::default_random_engine engine;
+    for(unsigned i = 0; i < population_parents.size(); i++){
+        for(unsigned j = 0; j < size_tournament; j++){
+            unsigned index_competitor = rand()%population_parents.size();
+            population_tournament.push_back(population_parents[index_competitor]);
+        }
+        sort_population(population_tournament);
+        unsigned index_winner = index_from_probability(probabilities, distribution(engine));
+        population_fertile.push_back(population_tournament[index_winner]);
+        population_tournament.clear();
     }
 }
 

@@ -23,6 +23,7 @@ void sort_population(std::vector<genome>& population);
 void use_elitism(std::vector<genome>& population_children, std::vector<genome>& population_parents, unsigned n_individuums);
 void fitness_proportionate_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents);
 void truncation_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents, unsigned size_truncation);
+void tournament_selection(std::vector<genome>& population_fertile, std::vector<genome>& population_parents, unsigned size_tournament, double probability);
 void crossover(std::vector<genome>& population_children, std::vector<genome>& population_parents, double probability, unsigned n_individuums);
 void mutate_population(std::vector<genome>& population, double probability, unsigned n_ignored, int lower_bound, int upper_bound);
 
